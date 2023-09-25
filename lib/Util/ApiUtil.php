@@ -2,6 +2,7 @@
 
 namespace OpenAPIServer\Util;
 
+use OpenAPIServer\Mock\OpenApiModelInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiUtil
@@ -16,7 +17,7 @@ class ApiUtil
     public static function fetch(\PDOStatement $statement, ResponseInterface $response, int $mode = \PDO::FETCH_ASSOC): ResponseInterface
     {
         $statement->execute();
-        $data = $statement->fetchAll($mode);
+        $data = $statement->fetch($mode);
         if ($data) {
             return ApiUtil::json($data, $response);
         } else {
