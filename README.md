@@ -121,7 +121,7 @@ Add required log handlers/processors/formatters in `lib/App/RegisterDependencies
 
 ## API Endpoints
 
-All URIs are relative to *http://localhost:8888/api*
+All URIs are relative to */showcase/api/public*
 
 > Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
 

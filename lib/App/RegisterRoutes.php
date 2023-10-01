@@ -41,7 +41,7 @@ class RegisterRoutes
     private $operations = [
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/course',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractCourseApi',
@@ -69,7 +69,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/course/{courseId}',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractCourseApi',
@@ -99,7 +99,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/example',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractExampleApi',
@@ -132,7 +132,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/example/{exampleId}',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractExampleApi',
@@ -162,7 +162,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/session',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSessionApi',
@@ -195,7 +195,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/session/{sessionId}',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSessionApi',
@@ -225,7 +225,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/source',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSourceApi',
@@ -258,7 +258,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/source/{sourceId}',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSourceApi',
@@ -288,7 +288,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/sourcetype',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSourcetypeApi',
@@ -321,7 +321,7 @@ class RegisterRoutes
         ],
         [
             'httpMethod' => 'GET',
-            'basePathWithoutHost' => '/api',
+            'basePathWithoutHost' => '/showcase/api/public',
             'path' => '/sourcetype/{typeId}',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractSourcetypeApi',
