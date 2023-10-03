@@ -29,40 +29,40 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpNotImplementedException;
 
 /**
- * AbstractCourseApi Class Doc Comment
+ * AbstractStudyprogramApi Class Doc Comment
  *
  * @package OpenAPIServer\Api
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-abstract class AbstractCourseApi
+abstract class AbstractStudyprogramApi
 {
     /**
-     * GET getCourseById
-     * Summary: Course by id
-     * Notes: Retrieve a course by its id.
+     * GET getStudyProgramById
+     * Summary: Study program by id
+     * Notes: Retrieve a study program by its id.
      * Output-Formats: [application/json]
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param int $courseId courseId
+     * @param int $programId The id of the study program to retrieve
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function getCourseById(
+    public function getStudyProgramById(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        int $courseId
+        int $programId
     ): ResponseInterface {
-        $message = "How about implementing getCourseById as a GET method in OpenAPIServer\Api\CourseApi class?";
+        $message = "How about implementing getStudyProgramById as a GET method in OpenAPIServer\Api\StudyprogramApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
 
     /**
-     * GET getCourses
-     * Summary: All courses
-     * Notes: Retrieve all courses.
+     * GET getStudyPrograms
+     * Summary: All study programs
+     * Notes: Retrieve all study programs.
      * Output-Formats: [application/json]
      *
      * @param ServerRequestInterface $request  Request
@@ -71,11 +71,11 @@ abstract class AbstractCourseApi
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function getCourses(
+    public function getStudyPrograms(
         ServerRequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {
-        $message = "How about implementing getCourses as a GET method in OpenAPIServer\Api\CourseApi class?";
+        $message = "How about implementing getStudyPrograms as a GET method in OpenAPIServer\Api\StudyprogramApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
 }

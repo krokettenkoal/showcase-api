@@ -26,7 +26,7 @@ class SessionApi extends AbstractSessionApi
     public function getSessionsByCourse(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = $request->getQueryParams();
-        $courseId = intval($params['course']);
+        $courseId = intval($params['courseId']);
         $statement = $this->pdo->prepare('SELECT Id as id, CourseId as courseId, Title as title, Subtitle as subtitle, Image as image, Date as date FROM `sessions` WHERE CourseId = :courseId');
         $statement->execute(['courseId' => $courseId]);
         $sessions = $statement->fetchAll(\PDO::FETCH_ASSOC);

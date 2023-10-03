@@ -18,14 +18,14 @@ class CourseApi extends AbstractCourseApi
 
     public function getCourses(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $statement = $this->pdo->query('SELECT Id as id, Title as title, Subtitle as subtitle FROM `courses`');
+        $statement = $this->pdo->query('SELECT Id as id, StudyProgramId as studyProgramId, Title as title, Subtitle as subtitle, MoodleUrl as moodleUrl FROM `courses`');
         $courses = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return ApiUtil::json($courses, $response);
     }
 
     public function getCourseById(ServerRequestInterface $request, ResponseInterface $response, int $courseId): ResponseInterface
     {
-        $statement = $this->pdo->prepare('SELECT Id as id, Title as title, Subtitle as subtitle FROM `courses` WHERE Id = :courseId');
+        $statement = $this->pdo->prepare('SELECT Id as id, StudyProgramId as studyProgramId, Title as title, Subtitle as subtitle, MoodleUrl as moodleUrl FROM `courses` WHERE Id = :courseId');
         $statement->execute(['courseId' => $courseId]);
         return ApiUtil::fetch($statement, $response);
     }

@@ -19,8 +19,8 @@ class SourcetypeApi extends AbstractSourcetypeApi
     public function getSourceTypes(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $statement = $this->pdo->query('SELECT Id as id, Title as title, Icon as icon, Language as language FROM `sourcetypes`');
-        $courses = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        return ApiUtil::json($courses, $response);
+        $sourceTypes = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return ApiUtil::json($sourceTypes, $response);
     }
 
     public function getSourceTypeById(ServerRequestInterface $request, ResponseInterface $response, int $typeId): ResponseInterface

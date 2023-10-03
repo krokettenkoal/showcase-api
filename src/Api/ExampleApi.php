@@ -26,7 +26,7 @@ class ExampleApi extends AbstractExampleApi
     public function getExamplesBySession(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = $request->getQueryParams();
-        $sessionId = intval($params['session']);
+        $sessionId = intval($params['sessionId']);
         $statement = $this->pdo->prepare('SELECT Id as id, SessionId as sessionId, Title as title, Subtitle as subtitle, Image as image, Icon as icon, Component as component FROM `examples` WHERE SessionId = :sessionId');
         $statement->execute(['sessionId' => $sessionId]);
         $examples = $statement->fetchAll(\PDO::FETCH_ASSOC);

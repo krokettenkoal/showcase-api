@@ -18,7 +18,7 @@ class SourceApi extends AbstractSourceApi
 
     public function getSourceById(ServerRequestInterface $request, ResponseInterface $response, int $sourceId): ResponseInterface
     {
-        $statement = $this->pdo->prepare('SELECT Id as id, ExampleId as exampleId, SourceTypeId as type, Code as code FROM `sources` WHERE Id = :sourceId');
+        $statement = $this->pdo->prepare('SELECT Id as id, ExampleId as exampleId, SourceTypeId as typeId, Title as title, Code as code FROM `sources` WHERE Id = :sourceId');
         $statement->execute(['sourceId' => $sourceId]);
         $source = $statement->fetch(\PDO::FETCH_ASSOC);
         return ApiUtil::json($source, $response);
@@ -27,8 +27,8 @@ class SourceApi extends AbstractSourceApi
     public function getSourcesByExample(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = $request->getQueryParams();
-        $exampleId = intval($params['example']);
-        $statement = $this->pdo->prepare('SELECT Id as id, ExampleId as exampleId, SourceTypeId as type, Code as code FROM `sources` WHERE ExampleId = :exampleId');
+        $exampleId = intval($params['exampleId']);
+        $statement = $this->pdo->prepare('SELECT Id as id, ExampleId as exampleId, SourceTypeId as typeId, Title as title, Code as code, Priority as priority FROM `sources` WHERE ExampleId = :exampleId');
         $statement->execute(['exampleId' => $exampleId]);
         $sources = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return ApiUtil::json($sources, $response);

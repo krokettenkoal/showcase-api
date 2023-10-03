@@ -24,13 +24,13 @@ namespace OpenAPIServer\Model;
 use OpenAPIServer\BaseModel;
 
 /**
- * Course
+ * StudyProgram
  *
  * @package OpenAPIServer\Model
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Course extends BaseModel
+class StudyProgram extends BaseModel
 {
     /**
      * @var string Models namespace.
@@ -44,28 +44,24 @@ class Course extends BaseModel
      */
     protected const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "title" : "Course",
-  "required" : [ "id", "studyProgramId", "title" ],
+  "title" : "StudyProgram",
+  "required" : [ "id", "subtitle", "title" ],
   "type" : "object",
   "properties" : {
     "id" : {
       "type" : "integer",
-      "description" : "The course id"
+      "description" : "The study program id"
     },
     "title" : {
       "type" : "string",
-      "description" : "The course title"
+      "description" : "The study program title (acronym)"
     },
     "subtitle" : {
       "type" : "string",
-      "description" : "The course subtitle (optional)"
-    },
-    "studyProgramId" : {
-      "type" : "integer",
-      "description" : "The id of the study program the course belongs to"
+      "description" : "The study program subtitle (full name)"
     }
   },
-  "description" : "A course (LV) in a study program"
+  "description" : "A study program at St. Pölten UAS"
 }
 SCHEMA;
 }

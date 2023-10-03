@@ -56,7 +56,7 @@ return [
     ],
 
     // PDO
-    'pdo.dsn' => 'mysql:host=localhost;dbname=showcase;charset=utf8mb4',
+    'pdo.dsn' => 'mysql:host=localhost;charset=utf8mb4',
     'pdo.username' => 'root',
     'pdo.password' => 'root',
     'pdo.options' => [
