@@ -63,6 +63,10 @@ class Course extends BaseModel
     "studyProgramId" : {
       "type" : "integer",
       "description" : "The id of the study program the course belongs to"
+    },
+    "moodleUrl" : {
+      "type" : "string",
+      "description" : "The URL of the course in Moodle aka eCampus (optional)"
     }
   },
   "description" : "A course (LV) in a study program"
