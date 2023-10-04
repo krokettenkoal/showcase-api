@@ -24,11 +24,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use DI\Bridge\Slim\Bridge;
 use DI\ContainerBuilder;
-use OpenAPIServer\App\RegisterDependencies;
-use OpenAPIServer\App\RegisterRoutes;
-use OpenAPIServer\App\RegisterMiddlewares;
-use OpenAPIServer\App\ResponseEmitter;
 use Neomerx\Cors\Contracts\AnalyzerInterface;
+use OpenAPIServer\lib\App\RegisterDependencies;
+use OpenAPIServer\lib\App\RegisterMiddlewares;
+use OpenAPIServer\lib\App\RegisterRoutes;
+use OpenAPIServer\lib\App\ResponseEmitter;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Middleware\ErrorMiddleware;
 
