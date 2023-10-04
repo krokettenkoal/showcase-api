@@ -7,3 +7,12 @@
 
 # Logs folder
 /__log/**/*.*
+
+# Composer packages
+/vendor/**/*
+
+# PhpStorm project files that may contain user sensitive data
+/.idea/sshConfigs.xml
+/.idea/dataSources.xml
+/.idea/webServers.xml
+/.idea/deployment.xml
