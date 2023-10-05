@@ -69,6 +69,11 @@ $installAction = array_key_exists('install', $_GET) ? $_GET['install'] : null;
         .bg-warn {
             background-color: #885d11;
         }
+        .bg-success a,
+        .bg-error a,
+        .bg-warn a {
+            color: white;
+        }
     </style>
 </head>
 <body>
