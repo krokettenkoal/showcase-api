@@ -16,3 +16,4 @@
 /.idea/dataSources.xml
 /.idea/webServers.xml
 /.idea/deployment.xml
+bin/**/*.*
