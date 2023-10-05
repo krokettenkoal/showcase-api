@@ -1,5 +1,7 @@
 <?php
 
+namespace Phpress\Model;
+
 class ApiModel {
     public function __construct(?array $data)
     {

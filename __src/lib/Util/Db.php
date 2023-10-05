@@ -1,9 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../lib/env.php';
-require_once __DIR__ . '/../config/' . API_MODE . '.inc.php';
+namespace Phpress\Util;
 
-class ShowcaseDb extends PDO {
+require_once __DIR__ . '/env.php';
+require_once __DIR__ . '/../../config/' . API_MODE . '.inc.php';
+
+class ShowcaseDb extends \PDO {
     public function __construct()
     {
         $dsn = CFG_DB['pdo.dsn'];

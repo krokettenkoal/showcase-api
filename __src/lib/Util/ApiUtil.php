@@ -1,8 +1,15 @@
 <?php
 
-require_once __DIR__ . '/../ApiException.php';
+namespace Phpress\Util;
+
+require_once __DIR__ . '/../Exception/ApiException.php';
 require_once __DIR__ . '/StringUtil.php';
 
+use Phpress\Exception\ApiException;
+
+/**
+ * @deprecated Will be removed in favor of the Phpress Router
+ */
 class ApiUtil
 {
     /**

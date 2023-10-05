@@ -1,5 +1,7 @@
 <?php
 
+namespace Phpress\Model;
+
 require_once __DIR__ . '/ApiModel.php';
 
 /**

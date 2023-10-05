@@ -1,10 +1,15 @@
 <?php
 
-require_once __DIR__ . '/BaseApi.php';
-require_once __DIR__ . '/../lib/Model/Course.php';
-require_once __DIR__ . '/../lib/ApiException.php';
+namespace Phpress\Handler;
 
-class CourseApi extends BaseApi
+require_once __DIR__ . '/ApiHandler.php';
+require_once __DIR__ . '/../Model/Course.php';
+require_once __DIR__ . '/../Exception/ApiException.php';
+
+use Phpress\Model\Course;
+use Phpress\Exception\ApiException;
+
+class CourseHandler extends ApiHandler
 {
     /**
      * Get all courses
@@ -27,7 +32,7 @@ class CourseApi extends BaseApi
     {
         $statement = $this->db->prepare('SELECT Id as id, StudyProgramId as studyProgramId, Title as title, Subtitle as subtitle, MoodleUrl as moodleUrl FROM `courses` WHERE Id = :courseId');
         $statement->execute(['courseId' => $courseId]);
-        $course = $statement->fetch(PDO::FETCH_ASSOC);
+        $course = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if(empty($course))
             throw new ApiException(404, "Course with id $courseId not found");

@@ -1,10 +1,15 @@
 <?php
 
-require_once __DIR__ . '/BaseApi.php';
-require_once __DIR__ . '/../lib/Model/SourceType.php';
-require_once __DIR__ . '/../lib/ApiException.php';
+namespace Phpress\Handler;
 
-class SourceTypeApi extends BaseApi
+require_once __DIR__ . '/ApiHandler.php';
+require_once __DIR__ . '/../Model/SourceType.php';
+require_once __DIR__ . '/../Exception/ApiException.php';
+
+use Phpress\Model\SourceType;
+use Phpress\Exception\ApiException;
+
+class SourceTypeHandler extends ApiHandler
 {
     /**
      * Get all source types
@@ -27,7 +32,7 @@ class SourceTypeApi extends BaseApi
     {
         $statement = $this->db->prepare('SELECT Id as id, Title as title, Icon as icon, Language as language FROM `sourcetypes` WHERE Id = :typeId');
         $statement->execute(['typeId' => $typeId]);
-        $sourceType = $statement->fetch(PDO::FETCH_ASSOC);
+        $sourceType = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if(empty($sourceType))
             throw new ApiException(404, "Source type with id $typeId not found");

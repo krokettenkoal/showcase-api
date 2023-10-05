@@ -1,10 +1,15 @@
 <?php
 
-require_once __DIR__ . '/BaseApi.php';
-require_once __DIR__ . '/../lib/Model/Example.php';
-require_once __DIR__ . '/../lib/ApiException.php';
+namespace Phpress\Handler;
 
-class ExampleApi extends BaseApi
+require_once __DIR__ . '/ApiHandler.php';
+require_once __DIR__ . '/../Model/Example.php';
+require_once __DIR__ . '/../Exception/ApiException.php';
+
+use Phpress\Model\Example;
+use Phpress\Exception\ApiException;
+
+class ExampleHandler extends ApiHandler
 {
 
     /**
@@ -17,7 +22,7 @@ class ExampleApi extends BaseApi
     {
         $statement = $this->db->prepare('SELECT Id as id, SessionId as sessionId, Title as title, Subtitle as subtitle, Image as image, Icon as icon, Component as component FROM `examples` WHERE Id = :exampleId');
         $statement->execute(['exampleId' => $exampleId]);
-        $example = $statement->fetch(PDO::FETCH_ASSOC);
+        $example = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if(empty($example))
             throw new ApiException(404, "Example with id $exampleId not found");

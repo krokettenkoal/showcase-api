@@ -1,10 +1,15 @@
 <?php
 
-require_once __DIR__ . '/BaseApi.php';
-require_once __DIR__ . '/../lib/Model/Source.php';
-require_once __DIR__ . '/../lib/ApiException.php';
+namespace Phpress\Handler;
 
-class SourceApi extends BaseApi
+require_once __DIR__ . '/ApiHandler.php';
+require_once __DIR__ . '/../Model/Source.php';
+require_once __DIR__ . '/../Exception/ApiException.php';
+
+use Phpress\Model\Source;
+use Phpress\Exception\ApiException;
+
+class SourceHandler extends ApiHandler
 {
     /**
      * Get the source code with the given id

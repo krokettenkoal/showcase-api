@@ -1,10 +1,15 @@
 <?php
 
-require_once __DIR__ . '/BaseApi.php';
-require_once __DIR__ . '/../lib/Model/Session.php';
-require_once __DIR__ . '/../lib/ApiException.php';
+namespace Phpress\Handler;
 
-class SessionApi extends BaseApi
+require_once __DIR__ . '/ApiHandler.php';
+require_once __DIR__ . '/../Model/Session.php';
+require_once __DIR__ . '/../Exception/ApiException.php';
+
+use Phpress\Model\Session;
+use Phpress\Exception\ApiException;
+
+class SessionHandler extends ApiHandler
 {
 
     /**
@@ -17,7 +22,7 @@ class SessionApi extends BaseApi
     {
         $statement = $this->db->prepare('SELECT Id as id, CourseId as courseId, Title as title, Subtitle as subtitle, Image as image, Date as date FROM `sessions` WHERE Id = :sessionId');
         $statement->execute(['sessionId' => $sessionId]);
-        $session = $statement->fetch(PDO::FETCH_ASSOC);
+        $session = $statement->fetch(\PDO::FETCH_ASSOC);
 
         if(empty($session))
             throw new ApiException(404, "Session with id $sessionId not found");

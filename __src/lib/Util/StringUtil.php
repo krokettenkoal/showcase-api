@@ -1,5 +1,7 @@
 <?php
 
+namespace Phpress\Util;
+
 class StringUtil
 {
     /**

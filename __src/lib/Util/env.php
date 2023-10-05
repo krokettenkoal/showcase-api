@@ -1,5 +1,7 @@
 <?php
 
+namespace Phpress\Util;
+
 function getMode(): string
 {
     if(!getenv('API_MODE')) {
