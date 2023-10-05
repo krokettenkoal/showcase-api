@@ -8,12 +8,15 @@
 # Logs folder
 /__log/**/*.*
 
-# Composer packages
+# Composer and binaries
 /vendor/**/*
+bin/**/*.*
+
+# Setup files
+/__setup/.disabled
 
 # PhpStorm project files that may contain user sensitive data
 /.idea/sshConfigs.xml
 /.idea/dataSources.xml
 /.idea/webServers.xml
 /.idea/deployment.xml
-bin/**/*.*

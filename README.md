@@ -25,6 +25,13 @@ Choose this installation method if you **don't have terminal access** to your se
 3. Open the `setup.php` page in your browser (e.g. `https://example.com/api/setup.php`) and follow the instructions.
 4. **Import database tables** using the provided [SQL dump](/__setup/showcase.sql) (e.g. using phpMyAdmin)
 
+#### Enable/disable the installer (setup page)
+Once you have completed the setup, it is **highly recommended to disable the setup page**.
+
+To **disable the setup page**, create an empty file named `.disabled` in the [__setup](/__setup) folder on your server or simply click the *Disable Setup* button on the setup page.
+
+To **re-enable the setup page**, simply **delete the `.disabled` file** from the [__setup](/__setup) folder on your server.
+
 ## Configuration
 The `__src/config` directory contains an [example config file](/__src/config/example.inc.php) that may be used as a template. To create a configuration for a certain environment (`prod` or `dev`), copy the example config and name it `<mode>.inc.php`.
 For example, name the new config file `dev.inc.php` and tweak the config values to your development environment.
