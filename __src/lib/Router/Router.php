@@ -115,8 +115,8 @@ class Router {
         return preg_replace($rx, '', rtrim($path, '/') . '/');
     }
 
-    private function stripBase(Request $req, Response $res): void {
-        $req->server->set('REQUEST_URI', self::stripBasePath($req->getPathInfo(), $this->base));
+    private function stripBase(Request &$req, Response $res): void {
+        $req->server->set('REQUEST_URI', self::stripBasePath($req->server->get('REQUEST_URI'), $this->base));
     }
 
     /**
@@ -131,7 +131,7 @@ class Router {
         $code = $code === 0 ? 500 : $code;
         $res->setStatusCode($code);
         $lvl = $code === 404 ? Logger::LOG_LEVEL_INFO : Logger::LOG_LEVEL_ERROR;
-        $log = "Error $code on " . $req->getMethod() . ' ' . $req->getPathInfo();
+        $log = "Error $code on " . $req->getMethod() . ' ' . $req->server->get('REQUEST_URI');
 
         if(!StringUtil::isNullOrEmpty($message)) {
             $res->setContent(json_encode(['error' => $message]));
@@ -161,7 +161,7 @@ class Router {
      * @return bool Whether a route was matched
      */
     private function matchRoute(Request $req, ?array &$route): bool {
-        $path = rtrim($req->getPathInfo(), '/');
+        $path = rtrim($req->server->get('REQUEST_URI'), '/');
         $method = strtoupper($req->getMethod());
         $route = null;
         foreach($this->routes[$method] as $r) {
