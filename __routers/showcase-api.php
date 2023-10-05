@@ -18,7 +18,7 @@ use Phpress\Controller\SourceController;
 use Phpress\Controller\SourceTypeController;
 use Phpress\Controller\StudyProgramController;
 
-const ShowcaseApiRouter = new Router(CFG_SHOWCASE['router.base'] ?? '/', 'showcase-api');
+const ShowcaseApiRouter = new Router(CFG_API['router.base'] ?? '/', 'showcase-api');
 
 //  COURSE
 ShowcaseApiRouter->get('/course', CourseController::getCourses(...));
