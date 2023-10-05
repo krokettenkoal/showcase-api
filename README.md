@@ -16,14 +16,14 @@ If you don't terminal access, see the [Installer](#installer-php) section.
 1. **Clone** the repository using ```git clone https://github.com/krokettenkoal/showcase-api.git```
 2. **Download & install** [Composer](https://getcomposer.org/download/) (if not yet installed)
 3. **Install dependencies** by switching into the project's root directory and executing ```composer install```
-4. **Import database tables** using the provided [SQL dump](/__setup/import-db.sql) (e.g. using phpMyAdmin)
+4. **Import database tables** using the provided [SQL dump](/__setup/showcase.sql) (e.g. using phpMyAdmin)
 
 ### Installer (PHP)
 Choose this installation method if you **don't have terminal access** to your server (e.g. for [CampusCloud](https://fhstp.cc)/[SHEEP](https://management.students.fhstp.ac.at)).
 1. **Clone** the repository to your local machine using ```git clone https://github.com/krokettenkoal/showcase-api.git```
 2. **Copy** the cloned repository to your server (e.g. using SFTP). *If you copy the project into a subdirectory, make sure to set the API's `router.base` property in the [Configuration](#configuration) file accordingly.*
 3. Open the `setup.php` page in your browser (e.g. `https://example.com/api/setup.php`) and follow the instructions.
-4. **Import database tables** using the provided [SQL dump](/__setup/import-db.sql) (e.g. using phpMyAdmin)
+4. **Import database tables** using the provided [SQL dump](/__setup/showcase.sql) (e.g. using phpMyAdmin)
 
 ## Configuration
 The `__src/config` directory contains an [example config file](/__src/config/example.inc.php) that may be used as a template. To create a configuration for a certain environment (`prod` or `dev`), copy the example config and name it `<mode>.inc.php`.
