@@ -55,6 +55,7 @@ class Router {
         $this->routes = [];
         $this->logger = new Logger($logName);
         $this->middleware($this->stripBase(...));
+        $this->middleware(self::allowCors(...));
     }
 
     /**
@@ -117,6 +118,12 @@ class Router {
 
     private function stripBase(Request &$req, Response $res): void {
         $req->server->set('REQUEST_URI', self::stripBasePath($req->server->get('REQUEST_URI'), $this->base));
+    }
+
+    private static function allowCors(Request &$req, Response $res): void {
+        $res->headers->set('Access-Control-Allow-Origin', '*');
+        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, CONNECT');
+        $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     }
 
     /**
