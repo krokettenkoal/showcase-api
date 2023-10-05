@@ -161,7 +161,7 @@ class Router {
      * @return bool Whether a route was matched
      */
     private function matchRoute(Request $req, ?array &$route): bool {
-        $path = rtrim($req->server->get('REQUEST_URI'), '/');
+        $path = rtrim(strtok($req->server->get('REQUEST_URI'), '?'), '/');
         $method = strtoupper($req->getMethod());
         $route = null;
         foreach($this->routes[$method] as $r) {
