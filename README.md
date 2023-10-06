@@ -1,178 +1,79 @@
-# php-base - PHP Slim 4 Server library for Showcase API
-
-* [OpenAPI Generator](https://openapi-generator.tech)
-* [Slim 4 Documentation](https://www.slimframework.com/docs/v4/)
-
-This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim-Psr7) implementation.
-[PHP-DI](https://php-di.org/doc/frameworks/slim.html) package used as dependency container.
+# Showcase API
+> Static REST API for the UAS Showcase, built for scenarios where URL rewriting is not available.
 
 ## Requirements
+* PHP 8.1 or newer
+* (Static) web server
+* SQL database (e.g. MySQL, MariaDB, PostgreSQL)
+* Composer (installer included in package)
 
-* Web server with URL rewriting
-* PHP 7.4 or newer
+## Installation
+Depending on your environment, there are different ways to install the API. Choose the one that fits your environment best.
 
-This package contains `.htaccess` for Apache configuration.
-If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
+### Manual installation (CLI/SSH)
+This is the **recommended** installation method for environments with **CLI/SSH access**. 
+If you don't terminal access, see the [Installer](#installer-php) section.
+1. **Clone** the repository using ```git clone https://github.com/krokettenkoal/showcase-api.git```
+2. **Download & install** [Composer](https://getcomposer.org/download/) (if not yet installed)
+3. **Install dependencies** by switching into the project's root directory and executing ```composer install```
+4. **Import database tables** using the provided [SQL dump](/__setup/showcase.sql) (e.g. using phpMyAdmin)
 
-## Installation via [Composer](https://getcomposer.org/)
+### Installer (PHP)
+Choose this installation method if you **don't have terminal access** to your server (e.g. for [CampusCloud](https://fhstp.cc)/[SHEEP](https://management.students.fhstp.ac.at)).
+1. **Clone** the repository to your local machine using ```git clone https://github.com/krokettenkoal/showcase-api.git```
+2. **Copy** the cloned repository to your server (e.g. using SFTP). *If you copy the project into a subdirectory, make sure to set the API's `router.base` property in the [Configuration](#configuration) file accordingly.*
+3. Open the `setup.php` page in your browser (e.g. `https://example.com/api/setup.php`) and follow the instructions.
+4. **Import database tables** using the provided [SQL dump](/__setup/showcase.sql) (e.g. using phpMyAdmin)
 
-Navigate into your project's root directory and execute the bash command shown below.
-This command downloads the Slim Framework and its third-party dependencies into your project's `vendor/` directory.
+#### Enable/disable the installer (setup page)
+Once you have completed the setup, it is **highly recommended to disable the setup page**.
+
+To **disable the setup page**, create an empty file named `.disabled` in the [__setup](/__setup) folder on your server or simply click the *Disable Setup* button on the setup page.
+
+To **re-enable the setup page**, simply **delete the `.disabled` file** from the [__setup](/__setup) folder on your server.
+
+## Configuration
+The `__src/config` directory contains an [example config file](/__src/config/example.inc.php) that may be used as a template. To create a configuration for a certain environment (`prod` or `dev`), copy the example config and name it `<mode>.inc.php`.
+For example, name the new config file `dev.inc.php` and tweak the config values to your development environment.
+> To use the `dev` configuration (or other environments other than `prod`), you must set the environment variable `API_MODE` to the desired value. For example, this can be done when starting the built-in PHP server or by using Apache's [mod_env](https://httpd.apache.org/docs/2.4/mod/mod_env.html) module.
+> If no environment is specified, the `prod` environment will be used.
+
+### Configuration objects
+Each configuration file contains a number of configuration objects. These objects are used to configure different parts of the API. The following configuration objects are available:
+#### Database config (CFG_DB)
+| Key            | Type     | Description                               |
+|----------------|----------|-------------------------------------------|
+| *pdo.dsn*      | `string` | The DSN to connect to the database with.  |
+| *pdo.username* | `string` | The user to connect to the database with. |
+| *pdo.password* | `string` | The password for the database user.       |
+| *pdo.options*  | `array`  | Additional PDO options                    |
+
+See also: [PDO::__construct](https://www.php.net/manual/en/pdo.construct.php)
+
+#### API config (CFG_API)
+| Key           | Type     | Description                                                                                        |
+|---------------|----------|----------------------------------------------------------------------------------------------------|
+| *router.base* | `string` | The base path of the API (where the project resides in). Stripped from request URLs by the router. |
+
+## Run development server
+To start a local development server, either use the built-in PHP server or a web server of your choice. The built-in PHP server can be started by executing the following command in the project's root directory:
 ```bash
-$ composer install
+php -S localhost:8888
 ```
+> Remember to set the environment variable `API_MODE` to `dev`, as described in the [Configuration](#configuration) section.
 
-## Add configs
+## Routing
+Since this API is built for scenarios where URL rewriting is not supported, every API route must have their own `index.php` file under the corresponding path, calling the `Router` class to handle the request.
 
-[PHP-DI package](https://php-di.org/doc/getting-started.html) helps to decouple configuration from implementation. App loads configuration files in straight order(`$env` can be `prod` or `dev`):
-1. `config/$env/default.inc.php` (contains safe values, can be committed to vcs)
-2. `config/$env/config.inc.php` (user config, excluded from vcs, can contain sensitive values, passwords etc.)
-3. `lib/App/RegisterDependencies.php`
+### Create static route
+To create a new static route, create a new folder hierarchy directly inside the project root, resembling the API route (each portion of the path being a subdirectory). Inside each directory resembling an API route, create an `index.php` file, require a `Router` from the `__routers` directory and call its `Router::handle()` method. The method takes two optional parameters: 
+* `$req`: The [Request](https://symfony.com/doc/current/components/http_foundation.html#request) object to handle. If not specified, the `Request` object will be created from the current request.
+* `$path`: The request path to handle. If not specified, the current request path will be used. By supplying a custom path, you can handle requests for a different path than the current one (pseudo-rewriting).
 
-## Start devserver
+### Register route
+To register the static routes you have created, create a new file inside the `__routers` directory and instantiate a new `Router` object (or use an existing one). To register a route, call the `Router::route()` method on the `Router` object. The method takes three parameters:
+* `$path`: The path to route. Supports path parameters in the form of `{param}`. Must start with a leading `/`.
+* `$method`: The HTTP method to route. Must be one of the constants defined in the `Router` class.
+* `$callback`: The handler to call when the route is requested. Must be a callable.
 
-Run the following command in terminal to start localhost web server, assuming `./php-slim-server/public/` is public-accessible directory with `index.php` file:
-```bash
-$ php -S localhost:8888 -t php-slim-server/public
-```
-> **Warning** This web server was designed to aid application development.
-> It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
-> It is not intended to be a full-featured web server. It should not be used on a public network.
-
-## Tests
-
-### PHPUnit
-
-This package uses PHPUnit 8 or 9(depends from your PHP version) for unit testing.
-[Test folder](tests) contains templates which you can fill with real test assertions.
-How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/writing-tests-for-phpunit.html).
-
-#### Run
-
-Command | Target
----- | ----
-`$ composer test` | All tests
-`$ composer test-apis` | Apis tests
-`$ composer test-models` | Models tests
-
-#### Config
-
-Package contains fully functional config `./phpunit.xml.dist` file. Create `./phpunit.xml` in root folder to override it.
-
-Quote from [3. The Command-Line Test Runner — PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/textui.html#command-line-options):
-
-> If phpunit.xml or phpunit.xml.dist (in that order) exist in the current working directory and --configuration is not used, the configuration will be automatically read from that file.
-
-### PHP CodeSniffer
-
-[PHP CodeSniffer Documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki). This tool helps to follow coding style and avoid common PHP coding mistakes.
-
-#### Run
-
-```bash
-$ composer phpcs
-```
-
-#### Config
-
-Package contains fully functional config `./phpcs.xml.dist` file. It checks source code against PSR-1 and PSR-2 coding standards.
-Create `./phpcs.xml` in root folder to override it. More info at [Using a Default Configuration File](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file)
-
-### PHPLint
-
-[PHPLint Documentation](https://github.com/overtrue/phplint). Checks PHP syntax only.
-
-#### Run
-
-```bash
-$ composer phplint
-```
-
-## Show errors
-
-Switch your app environment to development in `public/.htaccess` file:
-```ini
-## .htaccess
-<IfModule mod_env.c>
-    SetEnv APP_ENV 'development'
-</IfModule>
-```
-
-## Mock Server
-Since this feature should be used for development only, change environment to `development` and send additional HTTP header `X-OpenAPIServer-Mock: ping` with any request to get mocked response.
-CURL example:
-```console
-curl --request GET \
-    --url 'http://localhost:8888/v2/pet/findByStatus?status=available' \
-    --header 'accept: application/json' \
-    --header 'X-OpenAPIServer-Mock: ping'
-[{"id":-8738629417578509312,"category":{"id":-4162503862215270400,"name":"Lorem ipsum dol"},"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem i","photoUrls":["Lor"],"tags":[{"id":-3506202845849391104,"name":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectet"}],"status":"pending"}]
-```
-
-Used packages:
-* [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.
-* [Openapi Data Mocker Server Middleware](https://github.com/ybelenko/openapi-data-mocker-server-middleware) - PSR-15 HTTP server middleware.
-* [Openapi Data Mocker Interfaces](https://github.com/ybelenko/openapi-data-mocker-interfaces) - package with mocking interfaces.
-
-## Logging
-
-Build contains pre-configured [`monolog/monolog`](https://github.com/Seldaek/monolog) package. Make sure that `logs` folder is writable.
-Add required log handlers/processors/formatters in `lib/App/RegisterDependencies.php`.
-
-## API Endpoints
-
-All URIs are relative to *https://lbgrillc-20025.php.fhstp.cc/api*
-
-> Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
-
-```php
-// src/Api/PetApi.php
-
-namespace OpenAPIServer\Api;
-
-use OpenAPIServer\Api\AbstractPetApi;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
-class PetApi extends AbstractPetApi
-{
-    public function addPet(
-        ServerRequestInterface $request,
-        ResponseInterface $response
-    ): ResponseInterface {
-        // your implementation of addPet method here
-    }
-}
-```
-
-When you need to inject dependencies into API controller check [PHP-DI - Controllers as services](https://github.com/PHP-DI/Slim-Bridge#controllers-as-services) guide.
-
-Place all your implementation classes in `./src` folder accordingly.
-For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you need to create implementation class at `./src/Api/PetApi.php`.
-
-Class | Method | HTTP request | Description
------------- | ------------- | ------------- | -------------
-*AbstractCourseApi* | **getCourses** | **GET** /course | All courses
-*AbstractCourseApi* | **getCourseById** | **GET** /course/{courseId} | Course by id
-*AbstractExampleApi* | **getExamplesBySession** | **GET** /example | Examples by session
-*AbstractExampleApi* | **getExampleById** | **GET** /example/{exampleId} | Example by id
-*AbstractSessionApi* | **getSessionsByCourse** | **GET** /session | Sessions by course
-*AbstractSessionApi* | **getSessionById** | **GET** /session/{sessionId} | Session by id
-*AbstractSourceApi* | **getSourcesByExample** | **GET** /source | Sources by example
-*AbstractSourceApi* | **getSourceById** | **GET** /source/{sourceId} | Source by id
-*AbstractSourcetypeApi* | **getSourceTypes** | **GET** /sourcetype | All source types
-*AbstractSourcetypeApi* | **getSourceTypeById** | **GET** /sourcetype/{typeId} | Source type by id
-*AbstractStudyprogramApi* | **getStudyPrograms** | **GET** /studyprogram | All study programs
-*AbstractStudyprogramApi* | **getStudyProgramById** | **GET** /studyprogram/{programId} | Study program by id
-
-
-## Models
-
-* OpenAPIServer\Model\Course
-* OpenAPIServer\Model\Example
-* OpenAPIServer\Model\Session
-* OpenAPIServer\Model\Source
-* OpenAPIServer\Model\SourceType
-* OpenAPIServer\Model\StudyProgram
-
-
+> The `Router` class also provides shorthand functions for each HTTP method, e.g. `Router::get()`. These functions are equivalent to calling the `route()` method with the corresponding HTTP method.
