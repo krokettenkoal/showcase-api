@@ -45,17 +45,26 @@ class Router {
      */
     private Logger $logger;
 
+    private const DEFAULT_CORS_OPTS = [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, CONNECT',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With'
+    ];
+
+    private array $config;
+
     /**
      * Creates a new Router
-     * @param string|null $logName The name of the logger to use (optional)
+     * @param array|null $cfg The configuration to use (optional)
      */
-    public function __construct(?string $base = null, ?string $logName = null) {
-        $this->base = rtrim($base ?? '', '/');
+    public function __construct(?array $cfg = null) {
+        $this->config = $cfg;
+        $this->base = rtrim(self::getConfigValue($cfg, 'router.base', ''), '/');
         $this->middleware = [];
         $this->routes = [];
-        $this->logger = new Logger($logName);
+        $this->logger = new Logger(self::getConfigValue($cfg, 'log.name'));
         $this->middleware($this->stripBase(...));
-        $this->middleware(self::allowCors(...));
+        $this->middleware($this->handleCors(...));
     }
 
     /**
@@ -72,6 +81,17 @@ class Router {
      */
     public function getLogName(): ?string {
         return $this->logger->getName();
+    }
+
+    private function getConfig(string $key, $default = null): mixed {
+        return self::getConfigValue($this->config, $key, $default);
+    }
+
+    private static function getConfigValue(?array $cfg, string $key, $default = null): mixed {
+        if($cfg === null)
+            return $default;
+
+        return $cfg[$key] ?? $default;
     }
 
     /**
@@ -120,10 +140,18 @@ class Router {
         $req->server->set('REQUEST_URI', self::stripBasePath($req->server->get('REQUEST_URI'), $this->base));
     }
 
-    private static function allowCors(Request &$req, Response $res): void {
-        $res->headers->set('Access-Control-Allow-Origin', '*');
-        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE, CONNECT');
-        $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    /**
+     * Middleware to handle CORS
+     * @param Request $req The request to handle CORS for
+     * @param Response $res The response to handle CORS in
+     * @return void
+     */
+    private function handleCors(Request &$req, Response $res): void {
+        $fields = ['Access-Control-Allow-Origin', 'Access-Control-Allow-Methods', 'Access-Control-Allow-Headers'];
+        $opts = array_merge(self::DEFAULT_CORS_OPTS, $this->getConfig('cors', []));
+        foreach ($fields as $field) {
+            $res->headers->set($field, $opts[$field]);
+        }
     }
 
     /**

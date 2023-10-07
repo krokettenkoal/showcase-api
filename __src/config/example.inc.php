@@ -13,3 +13,13 @@ const CFG_DB = [
         \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
     ]
 ];
+
+const CFG_API = [
+    'router.base' => '/api',
+    'log.name' => 'api',
+    'cors' => [
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With'
+    ],
+];
