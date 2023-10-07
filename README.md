@@ -54,6 +54,7 @@ See also: [PDO::__construct](https://www.php.net/manual/en/pdo.construct.php)
 | Key           | Type     | Description                                                                                        |
 |---------------|----------|----------------------------------------------------------------------------------------------------|
 | *router.base* | `string` | The base path of the API (where the project resides in). Stripped from request URLs by the router. |
+| *cors*        | `array`  | CORS-related settings in the format of the corresponding HTTP headers.                             |
 
 ## Run development server
 To start a local development server, either use the built-in PHP server or a web server of your choice. The built-in PHP server can be started by executing the following command in the project's root directory:
